@@ -1,0 +1,419 @@
+:root {
+  --neon-red: #ff003c;
+  --neon-green: #39ff14;
+  --neon-blue: #00f3ff;
+  --accent-purple: #a4508b;
+  --old-yellow: #ffd700;
+  --vapor-gray: rgba(200, 200, 200, 0.2);
+  --ui-bg: rgba(0, 0, 0, 0.85);
+  --font-main: 'Orbitron', sans-serif;
+  --font-retro: 'Press Start 2P', cursive;
+}
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  overflow: hidden;
+  position: relative;
+  color: var(--neon-blue);
+  background: radial-gradient(ellipse at center, #0f0f0f, #000);
+}
+
+/* Canvas covers full screen */
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+}
+
+/* Audio Unlock Overlay */
+.audio-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.95);
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.overlay-text {
+  font-family: var(--font-retro);
+  font-size: 1.7rem;
+  color: var(--neon-blue);
+  text-shadow: 0 0 15px var(--neon-blue);
+}
+
+/* UI Panel */
+.ui-panel {
+  position: relative;
+  background: var(--ui-bg);
+  width: 95%;
+  max-width: 950px;
+  margin: 20px auto;
+  border-radius: 12px;
+  padding: 25px;
+  z-index: 50;
+  box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+  overflow: hidden;
+}
+
+/* CRT Overlay with scanlines and subtle flicker */
+.crt-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  animation: scanlines 1s infinite linear, crtFlicker 2s infinite;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+@keyframes scanlines {
+  from { background-position: 0 0; }
+  to { background-position: 0 10px; }
+}
+
+@keyframes crtFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.92; }
+}
+
+/* Main Frame Container */
+.main-frame {
+  position: relative;
+  padding: 20px;
+  text-align: center;
+  z-index: 2;
+  animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Title with Neon Glow & Bounce */
+.title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-family: var(--font-retro);
+  animation: neonPulse 2s infinite alternate, bounce 1s infinite;
+}
+
+@keyframes neonPulse {
+  from { text-shadow: 0 0 8px var(--neon-blue), 0 0 15px var(--neon-blue); }
+  to { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.neon-effect {
+  color: var(--neon-red);
+}
+
+/* Cigarette Pack Styling */
+.cigarette-pack {
+  background: #1a1a1a;
+  border: 3px solid var(--neon-blue);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 620px;
+  box-shadow: 0 0 35px rgba(0, 243, 255, 0.3);
+}
+
+.pack-design {
+  padding-bottom: 12px;
+}
+
+.cigarette-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
+}
+
+/* Cigarette Styling */
+.cigarette {
+  height: 40px;
+  background: linear-gradient(90deg, #fff 85%, #8b4513 15%);
+  border-radius: 2px 10px 10px 2px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: cigGlow 2s infinite alternate;
+}
+
+.cigarette:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+@keyframes cigGlow {
+  from { box-shadow: 0 0 5px rgba(255,255,255,0.3); }
+  to { box-shadow: 0 0 15px rgba(255,255,255,0.6); }
+}
+
+.cigarette.burned {
+  background: linear-gradient(90deg, #444 85%, #382010 15%);
+  animation: none;
+}
+
+.cigarette.burned::after {
+  content: "💀";
+  position: absolute;
+  right: 5px;
+  color: var(--neon-red);
+  filter: drop-shadow(0 0 5px var(--neon-red));
+}
+
+/* Health Meter */
+.health-meter {
+  margin-top: 20px;
+  height: 10px;
+  background: #222;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.meter-bar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-green), var(--old-yellow), var(--neon-red));
+  transition: width 0.5s ease;
+}
+
+.meter-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+/* Control Panel */
+.control-panel {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.counter {
+  font-size: 1.3rem;
+}
+
+.counter .label {
+  display: block;
+  font-size: 0.8rem;
+}
+
+/* Display for Game Timer */
+.game-timer {
+  font-family: var(--font-retro);
+  font-size: 0.95rem;
+  color: var(--neon-blue);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Glowing Buttons (Reload, Pause & Mute) */
+.glow-button {
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  padding: 10px 20px;
+  font-family: var(--font-retro);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.glow-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--neon-blue), transparent);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.glow-button:hover::before {
+  opacity: 0.25;
+}
+
+.glow-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--neon-blue);
+}
+
+/* Warning Banner */
+.warning-banner {
+  border: 2px solid var(--neon-red);
+  padding: 12px;
+  margin-top: 20px;
+  animation: warningPulse 1s infinite;
+  border-radius: 5px;
+}
+
+@keyframes warningPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Flame Effect (Small animated fire for each cigarette consumed) */
+.flame {
+  position: absolute;
+  width: 20px;
+  height: 40px;
+  background: radial-gradient(circle at 50% 30%, orange, transparent 70%);
+  border-radius: 50% 50% 50% 50%;
+  animation: flameFlicker 0.15s infinite;
+  pointer-events: none;
+}
+
+@keyframes flameFlicker {
+  0% { transform: scaleY(1) translateY(0); opacity: 0.9; }
+  50% { transform: scaleY(1.2) translateY(-3px); opacity: 1; }
+  100% { transform: scaleY(1) translateY(0); opacity: 0.9; }
+}
+
+/* Smoke & Vapor Effect */
+@keyframes smokeFade {
+  0% { opacity: 0.8; transform: translateY(0) scale(0.8); }
+  100% { opacity: 0; transform: translateY(-60px) scale(1.2); }
+}
+
+.smoke {
+  position: absolute;
+  width: 22px;
+  height: 42px;
+  background: var(--vapor-gray);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: smokeFade 1.3s forwards;
+}
+
+/* Ash Tray & Particles */
+.ash-tray {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65%;
+  height: 12px;
+  background: #333;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ash {
+  position: absolute;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  background: var(--old-yellow);
+  border-radius: 50%;
+  animation: ashDrift 2s infinite;
+}
+
+@keyframes ashDrift {
+  0% { transform: translateX(0) translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateX(25px) translateY(-25px) scale(0.5); opacity: 0; }
+}
+
+/* Achievement Popup */
+.achievement {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20px);
+  background: rgba(15, 15, 15, 0.95);
+  border: 2px solid var(--neon-blue);
+  padding: 20px 30px;
+  font-family: var(--font-retro);
+  color: var(--neon-blue);
+  font-size: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 10px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 80;
+}
+
+.achievement.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Burnt Lung Animation (Game Over) */
+.burnt-lung {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 2.5rem;
+  color: var(--neon-red);
+  text-shadow: 0 0 15px var(--neon-red);
+  opacity: 0;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  z-index: 90;
+}
+
+.burnt-lung.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* Cooldown Timer Display */
+.cooldown {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(15,15,15,0.95);
+  border: 2px solid var(--neon-blue);
+  padding: 10px 15px;
+  font-family: var(--font-retro);
+  color: var(--neon-blue);
+  font-size: 0.8rem;
+  border-radius: 5px;
+  z-index: 100;
+}

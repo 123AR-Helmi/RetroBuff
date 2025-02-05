@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RetroBUFF COUNTDOWN</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Canvas for Background Effects -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Audio Unlock Overlay -->
+  <div id="audioOverlay" class="audio-overlay">
+    <div class="overlay-text">CLICK TO ENABLE AUDIO</div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" src="Bourgeoisie-Home.mp3" loop></audio>
+
+  <!-- UI Panel -->
+  <div class="ui-panel">
+    <div class="crt-overlay"></div>
+    
+    <div class="main-frame">
+      <h1 class="title">
+        RETROBUFF <span class="neon-effect">COUNTDOWN</span>
+      </h1>
+      
+      <div class="cigarette-pack">
+        <div class="pack-design">
+          <div class="cigarette-grid" id="cigGrid">
+            <!-- Cigarettes generated dynamically -->
+          </div>
+        </div>
+        <div class="health-meter">
+          <div class="meter-bar" id="healthBar"></div>
+          <div class="meter-labels">
+            <span>Healthy</span>
+            <span>Danger</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="control-panel">
+        <div class="counter">
+          <span id="count">20</span>
+          <span class="label">FILTERS LEFT</span>
+        </div>
+        <button id="resetBtn" class="glow-button">RELOAD PACK</button>
+        <button id="pauseBtn" class="glow-button" onclick="togglePause()">Pause</button>
+        <button id="muteBtn" class="glow-button">Mute Music</button>
+        <div class="game-timer" id="gameTimer">0d 0h 0m 0s</div>
+      </div>
+      
+      <div class="warning-banner">
+        <div class="warning-text">WARNING: NICOTINE SIMULATION MAY LEAD TO VIRTUAL LUNG COLLAPSE</div>
+        <div class="skull-icon">💀</div>
+      </div>
+      
+      <div class="ash-tray"></div>
+      
+      <!-- Achievement Popup -->
+      <div id="achievement" class="achievement"></div>
+      
+      <!-- Burnt Lung Animation (Game Over) -->
+      <div id="burntLung" class="burnt-lung">💔 BURNT LUNG 💔</div>
+      
+      <!-- Cooldown Timer Display -->
+      <div id="cooldownDisplay" class="cooldown">Ready</div>
+    </div>
+  </div>
+  
+  <!-- Audio Elements -->
+  <audio id="smokeSound" src="smoke.mp3"></audio>
+  <audio id="reloadSound" src="reload.mp3"></audio>
+  <audio id="achievementSound" src="achievement.mp3"></audio>
+  
+  <!-- JavaScript Files -->
+  <script src="background.js"></script>
+  <script src="script.js"></script>
+  <script src="audio.js"></script>
+</body>
+</html>
